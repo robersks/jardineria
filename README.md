@@ -93,37 +93,37 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 1. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
  
  ```sql
-
+    SELECT c.codigo_cliente AS CODIGO, c.nombre_cliente AS CLIENTE FROM cliente c LEFT JOIN pago p ON c.codigo_cliente = p.codigo_cliente WHERE p.codigo_cliente IS NULL;
  ```
  
 2. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pedido.
  
  ```sql
-
+    SELECT c.codigo_cliente AS CODIGO, c.nombre_cliente AS CLIENTE FROM cliente c LEFT JOIN pedido p ON c.codigo_cliente = p.codigo_cliente WHERE p.codigo_cliente IS NULL;
  ```
  
 3. Devuelve un listado que muestre los clientes que no han realizado ningún pago y los que no han realizado ningún pedido.
  
  ```sql
-
+    SELECT c.codigo_cliente AS CODIGO, c.nombre_cliente AS CLIENTE FROM cliente c LEFT JOIN pago p ON c.codigo_cliente = p.codigo_cliente LEFT JOIN pedido pd ON c.codigo_cliente = pd.codigo_cliente WHERE p.codigo_cliente IS NULL AND pd.codigo_cliente IS NULL;
  ```
  
 4. Devuelve un listado que muestre solamente los empleados que no tienen una oficina asociada.
  
  ```sql
-
+    SELECT e.codigo_empleado AS CODIGO , CONCAT (e.nombre,' ',e.apellido1,' ',e.apellido2) AS EMPLEADO FROM empleado e LEFT JOIN oficina o ON e.codigo_oficina = o.codigo_oficina WHERE e.codigo_oficina IS NULL;
  ```
  
 5. Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado.
  
  ```sql
-
+    SELECT e.codigo_empleado AS CODIGO, CONCAT (e.nombre,' ',e.apellido1,' ',e.apellido2) AS EMPLEADO FROM empleado e LEFT JOIN cliente c ON e.codigo_empleado = c.codigo_empleado_rep_ventas WHERE c.codigo_empleado_rep_ventas IS NULL ;
  ```
  
 6. Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado junto con los datos de la oficina donde trabajan.
  
  ```sql
-
+    
  ```
  
 7. Devuelve un listado que muestre los empleados que no tienen una oficina asociada y los que no tienen un cliente asociado.
