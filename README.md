@@ -57,13 +57,13 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 8. Devuelve un listado con el nombre de los empleados junto con el nombre de sus jefes.
 
 ```sql
-    SELECT e.nombre AS EMPLEADO, ej.nombre AS JEFE FROM empleado e INNER JOIN empleado ej ON e.codigo_jefe = ej.codigo_empleado;
+    SELECT e.nombre AS EMPLEADO, ej.nombre AS JEFE FROM empleado e LEFT JOIN empleado ej ON e.codigo_jefe = ej.codigo_empleado;
 ```
 
 9. Devuelve un listado que muestre el nombre de cada empleados, el nombre de su jefe y el nombre del jefe de sus jefe.
 
 ```sql
-    SELECT e.nombre AS EMPLEADO, ej.nombre AS JEFE ,ejj.nombre AS JEFE_DEL_JEFE FROM empleado e INNER JOIN empleado ej ON e.codigo_jefe = ej.codigo_empleado LEFT JOIN empleado ejj ON ej.codigo_jefe = ejj.codigo_empleado; 
+    SELECT e.nombre AS EMPLEADO, ej.nombre AS JEFE ,ejj.nombre AS JEFE_DEL_JEFE FROM empleado e LEFT JOIN empleado ej ON e.codigo_jefe = ej.codigo_empleado LEFT JOIN empleado ejj ON ej.codigo_jefe = ejj.codigo_empleado; 
 ```
 
 10. Devuelve el nombre de los clientes a los que no se les ha entregado a tiempo un pedido.
