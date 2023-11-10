@@ -248,9 +248,11 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 
 7. Devuelve un listado con los distintos estados por los que puede pasar un pedido.
 
-   ```sql
+```sql
+   SELECT DISTINCT estado 
+   FROM pedido;
 
-   ```
+```
 
 8. Devuelve un listado con el código de cliente de aquellos clientes que realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta:
 
@@ -259,14 +261,33 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 * Sin utilizar ninguna de las funciones anteriores.
 
 ```sql
+   SELECT c.codigo_cliente, MIN(p.fecha_pago) AS Fecha_pago
+   FROM cliente c
+   INNER JOIN pago p ON c.codigo_cliente = p.codigo_cliente
+   WHERE YEAR(p.fecha_pago) = 2008
+   GROUP BY c.codigo_cliente;
+
+   SELECT c.codigo_cliente AS CODÍGO_CLIENTE, MIN(p.fecha_pago) AS FECHA_PAGO
+   FROM cliente c
+   INNER JOIN pago p ON c.codigo_cliente = p.codigo_cliente
+   WHERE DATE_FORMAT(p.fecha_pago,'%Y') = 2008
+   GROUP BY c.codigo_cliente;
+   
+   SELECT  c.codigo_cliente, MIN(p.fecha_pago) AS Fecha_pago
+   FROM cliente c
+   INNER JOIN pago p ON c.codigo_cliente = p.codigo_cliente
+   WHERE p.fecha_pago BETWEEN '2008-01-01' AND '2008-12-31'
+   GROUP BY c.codigo_cliente;
 
 ```
 
 9. Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos que no han sido entregados a tiempo.
 
-   ```sql
-
-   ```
+```sql
+   SELECT p.codigo_pedido,p.codigo_cliente,p.fecha_esperada,p.fecha_entrega 
+   FROM pedido p
+   WHERE p.fecha_entrega > p.fecha_esperada;
+```
 
 10. Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos cuya fecha de entrega ha sido al menos dos días antes de la fecha esperada.
 
@@ -275,44 +296,61 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 * ¿Sería posible resolver esta consulta utilizando el operador de suma + o resta -?
 
 ```sql
-   SELECT 
+    
 ```
 
 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
 
-   ```sql
-
-   ```
+```sql
+   SELECT codigo_pedido,fecha_pedido,estado
+   FROM pedido
+   WHERE YEAR(fecha_pedido) = 2009 AND estado = 'Rechazado'
+   ORDER BY fecha_pedido;
+```
 
 12. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
 
-   ```sql
-
-   ```
+```sql
+   SELECT codigo_pedido,fecha_pedido,estado
+   FROM pedido
+   WHERE MONTH(fecha_pedido) = 01 AND estado = 'Entregado'
+   ORDER BY fecha_pedido;
+```
 
 13. Devuelve un listado con todos los pagos que se realizaron en el año 2008 mediante Paypal. Ordene el resultado de mayor a menor.
 
-   ```sql
-
-   ```
+```sql
+   SELECT id_transaccion,fecha_pago AS año,forma_pago
+   FROM pago
+   WHERE YEAR(fecha_pago) = 2008 AND forma_pago = 'PayPal'
+   ORDER BY fecha_pago;
+```
 
 14. Devuelve un listado con todas las formas de pago que aparecen en la tabla pago. Tenga en cuenta que no deben aparecer formas de pago repetidas.
 
-   ```sql
-
-   ```
+```sql
+   SELECT forma_pago FROM pago  GROUP BY forma_pago;
+```
 
 15. Devuelve un listado con todos los productos que pertenecen a la gama Ornamentales y que tienen más de 100 unidades en stock. El listado deberá estar ordenado por su precio de venta, mostrando en primer lugar los de mayor precio.
 
-   ```sql
-
-   ```
+```sql
+   SELECT codigo_producto,gama,cantidad_en_stock,precio_venta
+   FROM producto
+   WHERE gama = 'Ornamentales' AND cantidad_en_stock > 100
+   ORDER BY precio_venta DESC;
+```
 
 16. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y cuyo representante de ventas tenga el código de empleado 11 o 30.
 
-   ```sql
-
-   ```
+```sql
+   SELECT codigo_cliente AS Codigo,
+    nombre_cliente AS Nombre,
+    ciudad AS Ciudad,
+    codigo_empleado_rep_ventas AS Representante
+   FROM cliente
+   WHERE  ciudad = 'Madrid' AND ( codigo_empleado_rep_ventas = 11 OR codigo_empleado_rep_ventas = 30 );
+```
 
 
 
