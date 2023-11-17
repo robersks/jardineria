@@ -439,18 +439,24 @@ WHERE codigo_jefe = 3;
 
 1. Devuelve el nombre del cliente con mayor límite de crédito.
 ```sql
-
+   SELECT nombre_cliente
+   FROM cliente
+   WHERE limite_credito >= ALL( SELECT limite_credito FROM cliente);
 ```
 2. Devuelve el nombre del producto que tenga el precio de venta más caro.
 ```sql
-
+   SELECT nombre
+   FROM producto
+   WHERE precio_venta >= ALL ( SELECT precio_venta FROM producto);
 ```
 3. Devuelve el producto que menos unidades tiene en stock.
 ```sql
-
+   SELECT *
+   FROM producto
+   WHERE cantidad_en_stock <= ALL ( SELECT cantidad_en_stock FROM producto);
 ```
 
-<!--
+
 #### 1.4.8.3 Subconsultas con IN y NOT IN
 
 1. Devuelve el nombre, apellido1 y cargo de los empleados que no representen a ningún cliente.
@@ -468,7 +474,7 @@ WHERE codigo_jefe = 3;
 3. Devuelve un listado de los productos que nunca han aparecido en un pedido.
 4. Devuelve un listado de los productos que han aparecido en un pedido alguna vez.
 
--->
+
 
 ## TIPS
 
