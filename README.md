@@ -297,6 +297,19 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 
 ```sql
     
+SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega 
+FROM pedido 
+WHERE fecha_entrega <= ADDDATE(fecha_esperada, INTERVAL -2 DAY);
+
+
+SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega 
+FROM pedido 
+WHERE DATEDIFF(fecha_entrega,fecha_esperada) <= -2;
+
+
+SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega 
+FROM pedido 
+WHERE fecha_entrega <= fecha_esperada - INTERVAL 2 DAY;
 ```
 
 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
@@ -360,19 +373,84 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 #### 1.4.8.1 Con operadores básicos de comparación
 
 1. Devuelve el nombre del cliente con mayor límite de crédito.
+```sql
+SELECT nombre_cliente 
+FROM cliente  
+WHERE limite_credito = (SELECT MAX(limite_credito) FROM cliente);
+```
 2. Devuelve el nombre del producto que tenga el precio de venta más caro.
+```sql
+SELECT nombre,precio_venta
+FROM producto
+WHERE precio_venta = (SELECT MAX(precio_venta) FROM producto);
+```
 3. Devuelve el nombre del producto del que se han vendido más unidades. (Tenga en cuenta que tendrá que calcular cuál es el número total de unidades que se han vendido de cada producto a partir de los datos de la tabla `detalle_pedido`)
+
+```sql
+
+SELECT nombre 
+FROM producto 
+WHERE codigo_producto = (   SELECT codigo_producto 
+                            FROM detalle_pedido 
+                            GROUP BY codigo_producto 
+                            ORDER BY SUM(cantidad) 
+                            DESC LIMIT 1
+                        );
+```
 4. Los clientes cuyo límite de crédito sea mayor que los pagos que haya realizado. (Sin utilizar `INNER JOIN`).
+
+```sql
+   SELECT *
+   FROM cliente
+   WHERE   limite_credito > 
+                           (
+                              SELECT SUM(total)
+                              FROM pago
+                              WHERE cliente.codigo_cliente = pago.codigo_cliente
+                           );
+```
 5. Devuelve el producto que más unidades tiene en stock.
+```sql
+
+SELECT nombre,cantidad_en_stock
+FROM producto
+WHERE cantidad_en_stock = ( SELECT MAX(cantidad_en_stock)
+                            FROM producto 
+                            );
+```
 6. Devuelve el producto que menos unidades tiene en stock.
+```sql
+SELECT nombre,cantidad_en_stock
+FROM producto
+WHERE cantidad_en_stock =   (
+                                SELECT MIN(cantidad_en_stock)
+                                FROM producto
+                            );
+```
 7. Devuelve el nombre, los apellidos y el email de los empleados que están a cargo de **Alberto Soria**.
+```sql
+SELECT nombre,apellido1,apellido2,email
+FROM empleado
+WHERE codigo_jefe = 3;
+```
+ 
 
 #### 1.4.8.2 Subconsultas con ALL y ANY
 
 1. Devuelve el nombre del cliente con mayor límite de crédito.
-2. Devuelve el nombre del producto que tenga el precio de venta más caro.
-3. Devuelve el producto que menos unidades tiene en stock.
+```sql
 
+```
+2. Devuelve el nombre del producto que tenga el precio de venta más caro.
+```sql
+
+```
+3. Devuelve el producto que menos unidades tiene en stock.
+```sql
+
+```
+
+<!--
 #### 1.4.8.3 Subconsultas con IN y NOT IN
 
 1. Devuelve el nombre, apellido1 y cargo de los empleados que no representen a ningún cliente.
@@ -389,3 +467,9 @@ JOIN empleado e ON c.codigo_empleado_rep_ventas = e.codigo_empleado INNER JOIN p
 2. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
 3. Devuelve un listado de los productos que nunca han aparecido en un pedido.
 4. Devuelve un listado de los productos que han aparecido en un pedido alguna vez.
+
+-->
+
+## TIPS
+
+###
