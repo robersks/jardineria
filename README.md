@@ -460,20 +460,88 @@ WHERE codigo_jefe = 3;
 #### 1.4.8.3 Subconsultas con IN y NOT IN
 
 1. Devuelve el nombre, apellido1 y cargo de los empleados que no representen a ningún cliente.
+```sql
+   select codigo_empleado,nombre,apellido1 as apellido,puesto as cargo 
+   from empleado
+   where codigo_empleado not in (select codigo_empleado_rep_ventas from cliente );
+```
 2. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
+```sql
+   SELECT * 
+   FROM cliente
+   WHERE codigo_cliente NOT IN (
+                                 SELECT codigo_cliente 
+                                 FROM pago 
+                                 GROUP BY codigo_cliente);
+```
 3. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
+```sql
+   SELECT * 
+   FROM cliente
+   WHERE codigo_cliente IN (   
+                              SELECT codigo_cliente 
+                              FROM pago 
+                              GROUP BY codigo_cliente);
+      
+```
 4. Devuelve un listado de los productos que nunca han aparecido en un pedido.
+```sql
+   SELECT *
+   FROM producto
+   WHERE codigo_producto NOT IN (
+                                 SELECT codigo_producto
+                                 FROM detalle_pedido
+                                 GROUP BY codigo_producto);
+```
 5. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos empleados que no sean representante de ventas de ningún cliente.
+```sql
+   SELECT e.nombre Nombres , CONCAT(e.apellido1,' ',e.apellido2) Apellidos ,e.puesto Puesto, o.telefono Telefono_Oficina
+   FROM empleado e
+   LEFT JOIN oficina o ON o.codigo_oficina = e.codigo_oficina 
+   WHERE e.codigo_empleado NOT IN (
+   SELECT codigo_empleado_rep_ventas
+   FROM cliente);
+```
 6. Devuelve las oficinas donde **no trabajan** ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama `Frutales`.
+```sql
+   SELECT *
+   FROM oficina 
+   WHERE codigo_oficina NOT IN (SELECT id_oficina FROM (SELECT c.codigo_empleado_rep_ventas id_empleado, em.codigo_oficina id_oficina
+   FROM cliente c 
+   INNER JOIN empleado em ON c.codigo_empleado_rep_ventas = em.codigo_empleado
+   INNER JOIN pedido p ON c.codigo_cliente = p.codigo_cliente
+   INNER JOIN detalle_pedido dp ON p.codigo_pedido = dp.codigo_pedido
+   INNER JOIN producto pr ON dp.codigo_producto = pr.codigo_producto
+   WHERE pr.gama = 'Frutales'
+   GROUP BY c.codigo_empleado_rep_ventas 
+   ORDER BY c.codigo_empleado_rep_ventas) oficinas_rep_ventas);
+```
 7. Devuelve un listado con los clientes que han realizado algún pedido pero no han realizado ningún pago.
-
+```sql
+   SELECT *
+   FROM cliente
+   WHERE 
+   (codigo_cliente IN (SELECT codigo_cliente FROM pedido)) AND (codigo_cliente NOT IN (SELECT codigo_cliente FROM pago));
+```
+ 
 #### 1.4.8.4 Subconsultas con EXISTS y NOT EXISTS
 
 1. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
-2. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
-3. Devuelve un listado de los productos que nunca han aparecido en un pedido.
-4. Devuelve un listado de los productos que han aparecido en un pedido alguna vez.
+```sql
 
+```
+2. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
+```sql
+
+```
+3. Devuelve un listado de los productos que nunca han aparecido en un pedido.
+```sql
+
+```
+4. Devuelve un listado de los productos que han aparecido en un pedido alguna vez.
+```sql
+
+```
 
 
 ## TIPS
