@@ -528,19 +528,36 @@ WHERE codigo_jefe = 3;
 
 1. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
 ```sql
-
+   SELECT *
+   FROM cliente c
+   WHERE NOT EXISTS ( SELECT 1 
+                     FROM pago p 
+                     WHERE c.codigo_cliente = p.codigo_cliente );
 ```
 2. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
 ```sql
-
+   SELECT *
+   FROM cliente c
+   WHERE EXISTS (  SELECT 1
+                  FROM pago p
+                  WHERE c.codigo_cliente = p.codigo_cliente);
 ```
 3. Devuelve un listado de los productos que nunca han aparecido en un pedido.
 ```sql
-
+   SELECT *
+   FROM producto p
+   WHERE NOT EXISTS (  SELECT 1
+                     FROM detalle_pedido dp
+                     WHERE p.codigo_producto = dp.codigo_producto);
 ```
 4. Devuelve un listado de los productos que han aparecido en un pedido alguna vez.
 ```sql
-
+   SELECT *
+   FROM producto p
+   WHERE EXISTS (
+                  SELECT 1
+                  FROM detalle_pedido dp
+                  WHERE p.codigo_producto = dp.codigo_producto);
 ```
 
 
