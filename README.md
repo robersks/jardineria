@@ -561,6 +561,78 @@ WHERE codigo_jefe = 3;
 ```
 
 
-## TIPS
+# TIPS
 
-###
+### 5 TIPS con SELECT en SQL
+
+1. Valores fijo
+```sql
+   SELECT codigo_cliente,fecha_pago, 'Desconocido' cajero
+   FROM pago
+   LIMIT 5;
+```
+2. operaciones con columna
+concatenar o operar valores numericos
+
+```sql
+   SELECT codigo_producto,cantidad,precio_unidad,(cantidad * precio_unidad) as Total, CONCAT(codigo_producto,'-Linea-',numero_linea) as Descripcion
+   FROM detalle_pedido
+   LIMIT 5;
+```
+
+3. condiciones 
+
+Segun el valor de una columna , darle valor a otra columna inventada
+```sql
+   SELECT nombre,gama,
+   CASE 
+   WHEN gama = 'Aromáticas' THEN 'Producto Aromatico'
+   WHEN gama = 'Herramientas' THEN 'Producto de trabajo'
+   END tipo
+   FROM producto; 
+```
+
+4. subconsultas
+
+hacer consultas sin unsar INNER JOIN (contar cuantos productos existen por gama)
+```sql
+   SELECT gama,(select COUNT(producto.nombre ) FROM producto WHERE producto.gama = gama_producto.gama ) cant_productos
+   FROM gama_producto;   
+```
+5. consulta sobre sub consulta
+
+hacer una consulta de una tabla que es resultado de otra consulta
+
+```sql
+   SELECT gama,cant_productos
+   FROM (  SELECT gama,(   select COUNT(producto.nombre ) 
+                           FROM producto 
+                           WHERE producto.gama = gama_producto.gama ) cant_productos
+         FROM gama_producto) as mi_tabla
+   WHERE cant_productos < 20;
+```
+6. columna auto incrementable VIRTUAL
+(ROW_NUMBER)
+
+enumera las filas resultantea de la consulta
+```sql
+   SELECT  ROW_NUMBER () OVER(ORDER BY(SELECT 1)) my_id_virtual,
+   gama, descripcion_texto
+   FROM gama_producto;   
+```
+### 5 TIPS con WHERE en SQL
+
+```sql
+   
+```
+### 5 TIPS con GROUP BY en SQL
+
+```sql
+   
+```
+
+### 5 TIPS con UPDATE en SQL
+
+```sql
+   
+```
