@@ -565,61 +565,69 @@ WHERE codigo_jefe = 3;
 
 ### 5 TIPS con SELECT en SQL
 
-1. Valores fijo
-```sql
-   SELECT codigo_cliente,fecha_pago, 'Desconocido' cajero
-   FROM pago
-   LIMIT 5;
-```
-2. operaciones con columna
-concatenar o operar valores numericos
+<details>
+  <summary>Click para desplegar</summary>
+  <br>
 
-```sql
-   SELECT codigo_producto,cantidad,precio_unidad,(cantidad * precio_unidad) as Total, CONCAT(codigo_producto,'-Linea-',numero_linea) as Descripcion
-   FROM detalle_pedido
-   LIMIT 5;
-```
 
-3. condiciones 
+   1. Valores fijo
+   ```sql
+      SELECT codigo_cliente,fecha_pago, 'Desconocido' cajero
+      FROM pago
+      LIMIT 5;
+   ```
+   2. operaciones con columna
+   concatenar o operar valores numericos
 
-Segun el valor de una columna , darle valor a otra columna inventada
-```sql
-   SELECT nombre,gama,
-   CASE 
-   WHEN gama = 'Aromáticas' THEN 'Producto Aromatico'
-   WHEN gama = 'Herramientas' THEN 'Producto de trabajo'
-   END tipo
-   FROM producto; 
-```
+   ```sql
+      SELECT codigo_producto,cantidad,precio_unidad,(cantidad * precio_unidad) as Total, CONCAT(codigo_producto,'-Linea-',numero_linea) as Descripcion
+      FROM detalle_pedido
+      LIMIT 5;
+   ```
 
-4. subconsultas
+   3. condiciones 
 
-hacer consultas sin unsar INNER JOIN (contar cuantos productos existen por gama)
-```sql
-   SELECT gama,(select COUNT(producto.nombre ) FROM producto WHERE producto.gama = gama_producto.gama ) cant_productos
-   FROM gama_producto;   
-```
-5. consulta sobre sub consulta
+   Segun el valor de una columna , darle valor a otra columna inventada
+   ```sql
+      SELECT nombre,gama,
+      CASE 
+      WHEN gama = 'Aromáticas' THEN 'Producto Aromatico'
+      WHEN gama = 'Herramientas' THEN 'Producto de trabajo'
+      END tipo
+      FROM producto; 
+   ```
 
-hacer una consulta de una tabla que es resultado de otra consulta
+   4. subconsultas
 
-```sql
-   SELECT gama,cant_productos
-   FROM (  SELECT gama,(   select COUNT(producto.nombre ) 
-                           FROM producto 
-                           WHERE producto.gama = gama_producto.gama ) cant_productos
-         FROM gama_producto) as mi_tabla
-   WHERE cant_productos < 20;
-```
-6. columna auto incrementable VIRTUAL
-(ROW_NUMBER)
+   hacer consultas sin unsar INNER JOIN (contar cuantos productos existen por gama)
+   ```sql
+      SELECT gama,(select COUNT(producto.nombre ) FROM producto WHERE producto.gama = gama_producto.gama ) cant_productos
+      FROM gama_producto;   
+   ```
+   5. consulta sobre sub consulta
 
-enumera las filas resultantea de la consulta
-```sql
-   SELECT  ROW_NUMBER () OVER(ORDER BY(SELECT 1)) my_id_virtual,
-   gama, descripcion_texto
-   FROM gama_producto;   
-```
+   hacer una consulta de una tabla que es resultado de otra consulta
+
+   ```sql
+      SELECT gama,cant_productos
+      FROM (  SELECT gama,(   select COUNT(producto.nombre ) 
+                              FROM producto 
+                              WHERE producto.gama = gama_producto.gama ) cant_productos
+            FROM gama_producto) as mi_tabla
+      WHERE cant_productos < 20;
+   ```
+   6. columna auto incrementable VIRTUAL
+   (ROW_NUMBER)
+
+   enumera las filas resultantea de la consulta
+   ```sql
+      SELECT  ROW_NUMBER () OVER(ORDER BY(SELECT 1)) my_id_virtual,
+      gama, descripcion_texto
+      FROM gama_producto;   
+   ```
+   
+</details>
+
 ### 5 TIPS con WHERE en SQL
 
 ```sql
