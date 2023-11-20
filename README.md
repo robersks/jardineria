@@ -630,17 +630,120 @@ WHERE codigo_jefe = 3;
 
 ### 5 TIPS con WHERE en SQL
 
-```sql
-   
-```
+<details>
+  <summary>Click para desplegar</summary>
+   <br>
+
+   1. NOT IN
+   ```sql
+      SELECT *
+      FROM gama_producto
+      WHERE gama NOT IN ('Herbaceas','Herramientas');
+   ```
+
+   2. Subconsulta
+   ```sql
+      SELECT *
+      FROM gama_producto gm
+      WHERE (
+         SELECT COUNT(*)
+         FROM producto pr
+         WHERE gm.gama = pr.gama
+      ) > 0;
+   ```
+
+
+   3. regex
+
+   ```sql
+      SELECT *
+      FROM gama_producto
+      WHERE gama LIKE 'A%';
+   ```
+
+   4. IN Y SUBCONSULTAS
+   ```sql
+      SELECT codigo_producto,nombre,precio_venta,gama
+      FROM producto
+      WHERE gama IN (
+                        SELECT gama
+                        FROM gama_producto
+                        WHERE gama LIKE 'H%'
+      );
+   ```
+
+   5. FUNCIONES
+   ```sql
+      SELECT *
+      FROM gama_producto
+      WHERE SUBSTRING(gama,1,1) = 'H';
+   ```
+</details>
+
 ### 5 TIPS con GROUP BY en SQL
 
-```sql
-   
-```
+
+<details>
+  <summary>Click para desplegar</summary>
+   <br>
+
+   1. 
+   ```sql
+      
+   ```
+
+   2. 
+   ```sql
+      
+   ```
+
+
+   3. 
+   ```sql
+      
+   ```
+
+   4. 
+   ```sql
+      
+   ```
+
+   5. 
+   ```sql
+      
+   ```
+</details>
 
 ### 5 TIPS con UPDATE en SQL
 
-```sql
-   
-```
+
+<details>
+  <summary>Click para desplegar</summary>
+   <br>
+
+   1. 
+   ```sql
+      
+   ```
+
+   2. 
+   ```sql
+      
+   ```
+
+
+   3. 
+   ```sql
+      
+   ```
+
+   4. 
+   ```sql
+      
+   ```
+
+   5. 
+   ```sql
+      
+   ```
+</details>
