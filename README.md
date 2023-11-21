@@ -687,31 +687,39 @@ WHERE codigo_jefe = 3;
   <summary>Click para desplegar</summary>
    <br>
 
-   1. 
+   1. multiple agrupamiento
    ```sql
-      
+      select gama,dimensiones,COUNT(*) total 
+      from producto
+      GROUP BY gama ,dimensiones ;
    ```
 
-   2. 
+   2. filtar las funciones de agregado (min,max, avg)
    ```sql
-      
+      select gama,dimensiones,COUNT(*) total 
+      from producto
+      GROUP BY gama ,dimensiones 
+      HAVING total > 10;
    ```
 
 
-   3. 
+   3.  concatenar productos por marca o por gama
    ```sql
-      
+      SELECT g.gama, GROUP_CONCAT (p.nombre,', ') as productoes
+      FROM gama_producto g
+      INNER JOIN producto p ON g.gama = p.gama 
+      GROUP BY g.gama;
    ```
 
-   4. 
+   4. contar los valores de una columna agrupada ejemplo cantidad
    ```sql
-      
+      SELECT gama, COUNT(nombre) AS cant
+      FROM producto
+      GROUP BY gama WITH ROLLUP
+      ORDER BY cant;
    ```
 
-   5. 
-   ```sql
-      
-   ```
+
 </details>
 
 ### 5 TIPS con UPDATE en SQL
@@ -721,29 +729,24 @@ WHERE codigo_jefe = 3;
   <summary>Click para desplegar</summary>
    <br>
 
-   1. 
+   1. Editar usando el valor ya guardado
    ```sql
-      
+      UPDATE gama_producto
+      SET descripcion_texto = CONCAT ('ejemplo - ',descripcion_texto);
    ```
 
-   2. 
+   1.1  poner un valor por default en una columna
+
    ```sql
-      
+      ALTER TABLE nombre_tabla
+      MODIFY COLUMN nombre_columna tipo_de_dato DEFAULT 'valor_por_default';
+   ```
+   2.  actualizar columna para que tenga el valor por default anteriormente configurado
+
+   ```sql
+      update gama_producto
+      set imagen = default;
    ```
 
 
-   3. 
-   ```sql
-      
-   ```
-
-   4. 
-   ```sql
-      
-   ```
-
-   5. 
-   ```sql
-      
-   ```
 </details>
