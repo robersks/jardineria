@@ -718,6 +718,21 @@ WHERE codigo_jefe = 3;
       GROUP BY gama WITH ROLLUP
       ORDER BY cant;
    ```
+   5.  UNION ALL
+   ```sql
+         SELECT
+         c.codigo_cliente AS codigo,
+         c.nombre_cliente AS cliente,
+         c.codigo_empleado_rep_ventas AS rep_ventas
+      FROM cliente c 
+      UNION ALL 
+      SELECT
+         e.codigo_empleado AS codigo,
+         CONCAT(e.nombre, ' ', e.apellido1, ' ', e.apellido2) AS empleado,
+         e.email correo
+      FROM empleado e;
+
+   ```
 
 
 </details>
