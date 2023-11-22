@@ -1,14 +1,10 @@
+system echo " "
+system echo " crear base de datos jardineria..."
 DROP DATABASE IF EXISTS jardineria;
 CREATE DATABASE jardineria CHARACTER SET utf8mb4;
 USE jardineria;
 
-system echo " "
-system echo " * BASE DE DATOS jardineria CREADA "
-system echo " "
-system echo " "
-system echo "* CREAR TABLAS EN LA BASE DE DATOS *"
-system echo " "
-
+system echo " crear tablas..."
 
 
 CREATE TABLE oficina (
@@ -117,9 +113,9 @@ CREATE TABLE pago (
   CONSTRAINT PK_pago_codigo_cliente__id_transaccion PRIMARY KEY (codigo_cliente, id_transaccion),
   CONSTRAINT FK_pago_codigo_cliente_cliente_codigo_cliente FOREIGN KEY (codigo_cliente) REFERENCES cliente (codigo_cliente)
 );
-system echo " "
-system echo " * INSERTAR DATOS EN TABLAS *"
-system echo " "
+
+system echo " insertar datos..."
+
 -- Datos
 INSERT INTO oficina VALUES ('BCN-ES','Barcelona','España','Barcelona','08019','+34 93 3561182','Avenida Diagonal, 38','3A escalera Derecha');
 INSERT INTO oficina VALUES ('BOS-USA','Boston','EEUU','MA','02108','+1 215 837 0825','1550 Court Place','Suite 102');
@@ -944,8 +940,5 @@ INSERT INTO pago VALUES (28,'PayPal','ak-std-000022','2009-01-13',8489);
 INSERT INTO pago VALUES (30,'PayPal','ak-std-000024','2009-01-16',7863);
 INSERT INTO pago VALUES (35,'PayPal','ak-std-000025','2007-10-06',3321);
 INSERT INTO pago VALUES (38,'PayPal','ak-std-000026','2006-05-26',1171);
-
-system echo " "
-system echo " "
-system echo "Todo ok!"
+system echo " OK"
 system echo " "
